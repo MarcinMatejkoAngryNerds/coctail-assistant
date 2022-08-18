@@ -1,0 +1,1 @@
+{"version":3,"sources":["styles.css"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA","file":"styles.8986bff4.css","sourceRoot":"..","sourcesContent":["* {\n  font-family: \"Roboto\", sans-serif;\n}\n\nbody {\n  width: 720px;\n  margin: 0px auto;\n}\n\n.header {\n  text-align: center;\n}\n"]}

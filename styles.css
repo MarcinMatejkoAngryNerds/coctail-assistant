@@ -1,0 +1,12 @@
+* {
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  width: 720px;
+  margin: 0px auto;
+}
+
+.header {
+  text-align: center;
+}
