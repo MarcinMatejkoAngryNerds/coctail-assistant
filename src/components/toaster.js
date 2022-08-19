@@ -2,7 +2,6 @@ import { component } from "haunted";
 import { html } from "lit-html";
 
 function Toaster({ toastMessage }) {
-  console.log("toastMessage", toastMessage);
   return html` ${toastMessage.length > 0
     ? html` <style>
           .toaster {

@@ -2,6 +2,14 @@ import { component } from "haunted";
 import { html } from "lit-html";
 
 function ShoppingListItem({ shoppingList }) {
+  const removeFromShoppingList = (ingredient) => {
+    const event = new CustomEvent("remove-ingredient", {
+      bubbles: true,
+      composed: true,
+      detail: { ingredient },
+    });
+    this.dispatchEvent(event);
+  };
   return html` <style>
       .list {
         border: none;
@@ -22,7 +30,13 @@ function ShoppingListItem({ shoppingList }) {
       h4 {
         margin: 12px 0;
       }
-      button {
+      .item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .print-btn {
         padding: 8px;
         width: 120px;
         border: none;
@@ -30,16 +44,40 @@ function ShoppingListItem({ shoppingList }) {
         background-color: #d3d3d3;
         cursor: pointer;
       }
-      button:hover {
+      .print-btn:hover {
         background-color: #c6c6c6;
+      }
+      .remove-btn {
+        height: 24px;
+        border: none;
+        padding: 2px 16px;
+        margin: 8px 16px;
+        border-radius: 2px;
+        background-color: #4caf50;
+        cursor: pointer;
+      }
+
+      .remove-btn:hover {
+        background-color: #419444;
       }
     </style>
     <div class="list">
       <div class="list-items">
         <h4>Shopping List</h4>
-        ${shoppingList?.map((ingredient) => html`<span>${ingredient}</span>`)}
+        ${shoppingList?.map(
+          (ingredient) =>
+            html`<div class="item">
+              <span>${ingredient}</span
+              ><button
+                class="remove-btn"
+                @click=${() => removeFromShoppingList(ingredient)}
+              >
+                -
+              </button>
+            </div>`
+        )}
       </div>
-      <button>Print</button>
+      <button class="print-btn">Print</button>
     </div>`;
 }
 

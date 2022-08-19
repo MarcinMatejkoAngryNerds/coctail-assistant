@@ -41,6 +41,11 @@ function App() {
     setToastMessage("Ingredients added to shopping list.");
   };
 
+  const removeFromShoppingList = (e) => {
+    setShoppingList(shoppingList.filter((item) => item !== e));
+    setToastMessage("Ingredients removed from shopping list.");
+  };
+
   return html`
     <style>
       .search {
@@ -87,7 +92,9 @@ function App() {
             addToShoppingList(event.detail.cocktail)}
         ></cocktail-list>
         <div>
-        <shopping-list-item .shoppingList=${shoppingList}></shopping-list-item>
+        <shopping-list-item .shoppingList=${shoppingList} @remove-ingredient=${(
+    event
+  ) => removeFromShoppingList(event.detail.ingredient)}></shopping-list-item>
         <app-toaster .toastMessage=${toastMessage}></app-toaster>
         </div
         

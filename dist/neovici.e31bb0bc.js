@@ -2782,9 +2782,26 @@ var _templateObject, _templateObject2;
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 function ShoppingListItem(_ref) {
+  var _this = this;
+
   var shoppingList = _ref.shoppingList;
-  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral([" <style>\n      .list {\n        border: none;\n        border-radius: 4px;\n        margin: 16px;\n        padding: 8px;\n        width: 220px;\n        height: 400px;\n        box-shadow: 2px 2px 16px -6px rgba(66, 68, 90, 1);\n        display: flex;\n        flex-direction: column;\n        justify-content: space-between;\n      }\n      .list-items {\n        display: flex;\n        flex-direction: column;\n      }\n      h4 {\n        margin: 12px 0;\n      }\n      button {\n        padding: 8px;\n        width: 120px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n    </style>\n    <div class=\"list\">\n      <div class=\"list-items\">\n        <h4>Shopping List</h4>\n        ", "\n      </div>\n      <button>Print</button>\n    </div>"])), shoppingList === null || shoppingList === void 0 ? void 0 : shoppingList.map(function (ingredient) {
-    return (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<span>", "</span>"])), ingredient);
+
+  var removeFromShoppingList = function removeFromShoppingList(ingredient) {
+    var event = new CustomEvent("remove-ingredient", {
+      bubbles: true,
+      composed: true,
+      detail: {
+        ingredient: ingredient
+      }
+    });
+
+    _this.dispatchEvent(event);
+  };
+
+  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral([" <style>\n      .list {\n        border: none;\n        border-radius: 4px;\n        margin: 16px;\n        padding: 8px;\n        width: 220px;\n        height: 400px;\n        box-shadow: 2px 2px 16px -6px rgba(66, 68, 90, 1);\n        display: flex;\n        flex-direction: column;\n        justify-content: space-between;\n      }\n      .list-items {\n        display: flex;\n        flex-direction: column;\n      }\n      h4 {\n        margin: 12px 0;\n      }\n      .item {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-between;\n        align-items: center;\n      }\n      .print-btn {\n        padding: 8px;\n        width: 120px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      .print-btn:hover {\n        background-color: #c6c6c6;\n      }\n      .remove-btn {\n        height: 24px;\n        border: none;\n        padding: 2px 16px;\n        margin: 8px 16px;\n        border-radius: 2px;\n        background-color: #4caf50;\n        cursor: pointer;\n      }\n\n      .remove-btn:hover {\n        background-color: #419444;\n      }\n    </style>\n    <div class=\"list\">\n      <div class=\"list-items\">\n        <h4>Shopping List</h4>\n        ", "\n      </div>\n      <button class=\"print-btn\">Print</button>\n    </div>"])), shoppingList === null || shoppingList === void 0 ? void 0 : shoppingList.map(function (ingredient) {
+    return (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<div class=\"item\">\n              <span>", "</span\n              ><button\n                class=\"remove-btn\"\n                @click=", "\n              >\n                -\n              </button>\n            </div>"])), ingredient, function () {
+      return removeFromShoppingList(ingredient);
+    });
   }));
 }
 
@@ -2802,7 +2819,6 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 function Toaster(_ref) {
   var toastMessage = _ref.toastMessage;
-  console.log("toastMessage", toastMessage);
   return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral([" ", ""])), toastMessage.length > 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral([" <style>\n          .toaster {\n            border: none;\n            border-radius: 4px;\n            margin: 16px;\n            padding: 8px;\n            width: 220px;\n            height: 35px;\n            box-shadow: 2px 2px 16px -6px rgba(66, 68, 90, 1);\n          }\n        </style>\n        <div class=\"toaster\">\n          <span>", "</span>\n        </div>"])), toastMessage) : null);
 }
 
@@ -2898,11 +2914,20 @@ function App() {
     setToastMessage("Ingredients added to shopping list.");
   };
 
-  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n      .search {\n        margin-bottom: 16px;\n        text-align: center;\n      }\n      input {\n        width: 60%;\n        height: 34px;\n        padding: 0px 16px;\n        border: 1px solid black;\n        border-radius: 4px;\n      }\n      button {\n        height: 36px;\n        padding: 0px 24px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n      .cocktail-list {\n        min-width: 438px;\n      }\n    </style>\n    <div>\n      <form class=\"search\" @submit=", ">\n        <input\n          type=\"text\"\n          placeholder=\"Cocktail Name...\"\n          @change=", "\n        />\n        <button type=\"submit\">Search</button>\n      </form>\n\n      <div style=\"display:flex;flex-direction:row\">\n        <cocktail-list\n          class=\"cocktail-list\"\n          .cocktails=", "\n          @add-ingredients=", "\n        ></cocktail-list>\n        <div>\n        <shopping-list-item .shoppingList=", "></shopping-list-item>\n        <app-toaster .toastMessage=", "></app-toaster>\n        </div\n        \n      </div>\n      \n    </div>\n  "])), searchForCocktails, function (e) {
+  var removeFromShoppingList = function removeFromShoppingList(e) {
+    setShoppingList(shoppingList.filter(function (item) {
+      return item !== e;
+    }));
+    setToastMessage("Ingredients removed from shopping list.");
+  };
+
+  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n      .search {\n        margin-bottom: 16px;\n        text-align: center;\n      }\n      input {\n        width: 60%;\n        height: 34px;\n        padding: 0px 16px;\n        border: 1px solid black;\n        border-radius: 4px;\n      }\n      button {\n        height: 36px;\n        padding: 0px 24px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n      .cocktail-list {\n        min-width: 438px;\n      }\n    </style>\n    <div>\n      <form class=\"search\" @submit=", ">\n        <input\n          type=\"text\"\n          placeholder=\"Cocktail Name...\"\n          @change=", "\n        />\n        <button type=\"submit\">Search</button>\n      </form>\n\n      <div style=\"display:flex;flex-direction:row\">\n        <cocktail-list\n          class=\"cocktail-list\"\n          .cocktails=", "\n          @add-ingredients=", "\n        ></cocktail-list>\n        <div>\n        <shopping-list-item .shoppingList=", " @remove-ingredient=", "></shopping-list-item>\n        <app-toaster .toastMessage=", "></app-toaster>\n        </div\n        \n      </div>\n      \n    </div>\n  "])), searchForCocktails, function (e) {
     return setQuery(e.target.value);
   }, cocktails, function (event) {
     return addToShoppingList(event.detail.cocktail);
-  }, shoppingList, toastMessage);
+  }, shoppingList, function (event) {
+    return removeFromShoppingList(event.detail.ingredient);
+  }, toastMessage);
 }
 
 customElements.define("my-app", (0, _haunted.component)(App));
