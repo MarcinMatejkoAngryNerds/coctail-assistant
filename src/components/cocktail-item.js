@@ -1,39 +1,23 @@
 import { component } from "haunted";
 import { html } from "lit-html";
-import { useState } from "haunted/core";
 
 function CocktailItem({ cocktail }) {
-  const [shoppingList, setShoppingList] = useState();
-
   let ingredients = [];
-  if (cocktail.strIngredient1) {
-    ingredients.push(cocktail.strIngredient1);
+  const maxIngredientsCount = 15;
+  for (let index = 1; index < maxIngredientsCount; index++) {
+    const ingredient = cocktail[`strIngredient${index}`];
+    if (ingredient && ingredients.indexOf(ingredient) === -1) {
+      ingredients.push(ingredient);
+    }
   }
-  if (cocktail.strIngredient2) {
-    ingredients.push(cocktail.strIngredient2);
-  }
-  if (cocktail.strIngredient3) {
-    ingredients.push(cocktail.strIngredient3);
-  }
-  if (cocktail.strIngredient4) {
-    ingredients.push(cocktail.strIngredient4);
-  }
-  if (cocktail.strIngredient5) {
-    ingredients.push(cocktail.strIngredient5);
-  }
-  if (cocktail.strIngredient6) {
-    ingredients.push(cocktail.strIngredient6);
-  }
-  if (cocktail.strIngredient7) {
-    ingredients.push(cocktail.strIngredient7);
-  }
-  if (cocktail.strIngredient8) {
-    ingredients.push(cocktail.strIngredient8);
-  }
-  console.log("ingredients", ingredients);
 
-  const addIngredientsToShoppingList = (ingredients) => {
-    setShoppingList(ingredients);
+  const addToShoppingList = (cocktail) => {
+    const event = new CustomEvent("add-ingredients", {
+      bubbles: true,
+      composed: true,
+      detail: { cocktail },
+    });
+    this.dispatchEvent(event);
   };
 
   return html` <style>
@@ -96,7 +80,7 @@ function CocktailItem({ cocktail }) {
           <span>Salt</span>
         </div>
         <div class="add">
-          <button>+</button>
+          <button @click=${() => addToShoppingList(ingredients)}>+</button>
         </div>
       </div>
     </div>`;

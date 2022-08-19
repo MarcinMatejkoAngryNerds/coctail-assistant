@@ -1,8 +1,7 @@
 import { component } from "haunted";
 import { html } from "lit-html";
 
-function ShoppingListItem() {
-  const ingredients = ["Vodka", "Raspberry Liqueur", "pineapple juice"];
+function ShoppingListItem({ shoppingList }) {
   return html` <style>
       .list {
         border: none;
@@ -38,7 +37,7 @@ function ShoppingListItem() {
     <div class="list">
       <div class="list-items">
         <h4>Shopping List</h4>
-        ${ingredients?.map((ingredient) => html`<span>${ingredient}</span>`)}
+        ${shoppingList?.map((ingredient) => html`<span>${ingredient}</span>`)}
       </div>
       <button>Print</button>
     </div>`;

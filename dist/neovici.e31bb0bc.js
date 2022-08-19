@@ -2714,77 +2714,44 @@ var _haunted = require("haunted");
 
 var _litHtml = require("lit-html");
 
-var _core = require("haunted/core");
-
 var _templateObject;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 function CocktailItem(_ref) {
+  var _this = this;
+
   var cocktail = _ref.cocktail;
-
-  var _useState = (0, _core.useState)(),
-      _useState2 = _slicedToArray(_useState, 2),
-      shoppingList = _useState2[0],
-      setShoppingList = _useState2[1];
-
   var ingredients = [];
+  var maxIngredientsCount = 15;
 
-  if (cocktail.strIngredient1) {
-    ingredients.push(cocktail.strIngredient1);
+  for (var index = 1; index < maxIngredientsCount; index++) {
+    var ingredient = cocktail["strIngredient".concat(index)];
+
+    if (ingredient && ingredients.indexOf(ingredient) === -1) {
+      ingredients.push(ingredient);
+    }
   }
 
-  if (cocktail.strIngredient2) {
-    ingredients.push(cocktail.strIngredient2);
-  }
+  var addToShoppingList = function addToShoppingList(cocktail) {
+    var event = new CustomEvent("add-ingredients", {
+      bubbles: true,
+      composed: true,
+      detail: {
+        cocktail: cocktail
+      }
+    });
 
-  if (cocktail.strIngredient3) {
-    ingredients.push(cocktail.strIngredient3);
-  }
-
-  if (cocktail.strIngredient4) {
-    ingredients.push(cocktail.strIngredient4);
-  }
-
-  if (cocktail.strIngredient5) {
-    ingredients.push(cocktail.strIngredient5);
-  }
-
-  if (cocktail.strIngredient6) {
-    ingredients.push(cocktail.strIngredient6);
-  }
-
-  if (cocktail.strIngredient7) {
-    ingredients.push(cocktail.strIngredient7);
-  }
-
-  if (cocktail.strIngredient8) {
-    ingredients.push(cocktail.strIngredient8);
-  }
-
-  console.log("ingredients", ingredients);
-
-  var addIngredientsToShoppingList = function addIngredientsToShoppingList(ingredients) {
-    setShoppingList(ingredients);
+    _this.dispatchEvent(event);
   };
 
-  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral([" <style>\n      .item {\n        border: none;\n        border-radius: 4px;\n        margin: 16px;\n        padding: 8px;\n        width: 390px;\n        display: flex;\n        flex-direction: row;\n        box-shadow: 2px 2px 16px -6px rgba(66, 68, 90, 1);\n      }\n\n      img {\n        border: none;\n        border-radius: 2px;\n        width: 100px;\n        height: 100px;\n        margin: 8px;\n      }\n      .item-desc {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-between;\n        width: 100%;\n      }\n      .item-desc-body {\n        display: flex;\n        flex-direction: column;\n      }\n      h4 {\n        margin: 8px 0;\n      }\n      .add {\n        display: flex;\n        flex-direction: column;\n        justify-content: end;\n      }\n      button {\n        height: 24px;\n        border: none;\n        padding: 2px 16px;\n        margin: 8px 16px;\n        border-radius: 2px;\n        background-color: #4caf50;\n        cursor: pointer;\n      }\n\n      button:hover {\n        background-color: #419444;\n      }\n    </style>\n    <div class=\"item\">\n      <img src=\"", "\" alt=\"\" class=\"thumbnail\" />\n      <div class=\"item-desc\">\n        <div class=\"item-desc-body\">\n          <h4 class=\"name\">", "</h4>\n          <span>", "</span>\n          <span>Salt</span>\n        </div>\n        <div class=\"add\">\n          <button>+</button>\n        </div>\n      </div>\n    </div>"])), cocktail.strDrinkThumb, cocktail.strDrink, cocktail.strInstructions);
+  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral([" <style>\n      .item {\n        border: none;\n        border-radius: 4px;\n        margin: 16px;\n        padding: 8px;\n        width: 390px;\n        display: flex;\n        flex-direction: row;\n        box-shadow: 2px 2px 16px -6px rgba(66, 68, 90, 1);\n      }\n\n      img {\n        border: none;\n        border-radius: 2px;\n        width: 100px;\n        height: 100px;\n        margin: 8px;\n      }\n      .item-desc {\n        display: flex;\n        flex-direction: row;\n        justify-content: space-between;\n        width: 100%;\n      }\n      .item-desc-body {\n        display: flex;\n        flex-direction: column;\n      }\n      h4 {\n        margin: 8px 0;\n      }\n      .add {\n        display: flex;\n        flex-direction: column;\n        justify-content: end;\n      }\n      button {\n        height: 24px;\n        border: none;\n        padding: 2px 16px;\n        margin: 8px 16px;\n        border-radius: 2px;\n        background-color: #4caf50;\n        cursor: pointer;\n      }\n\n      button:hover {\n        background-color: #419444;\n      }\n    </style>\n    <div class=\"item\">\n      <img src=\"", "\" alt=\"\" class=\"thumbnail\" />\n      <div class=\"item-desc\">\n        <div class=\"item-desc-body\">\n          <h4 class=\"name\">", "</h4>\n          <span>", "</span>\n          <span>Salt</span>\n        </div>\n        <div class=\"add\">\n          <button @click=", ">+</button>\n        </div>\n      </div>\n    </div>"])), cocktail.strDrinkThumb, cocktail.strDrink, cocktail.strInstructions, function () {
+    return addToShoppingList(ingredients);
+  });
 }
 
 customElements.define("cocktail-item", (0, _haunted.component)(CocktailItem));
-},{"haunted":"node_modules/haunted/lib/haunted.js","lit-html":"node_modules/lit-html/lit-html.js","haunted/core":"node_modules/haunted/core.js"}],"src/components/cocktail-list.js":[function(require,module,exports) {
+},{"haunted":"node_modules/haunted/lib/haunted.js","lit-html":"node_modules/lit-html/lit-html.js"}],"src/components/cocktail-list.js":[function(require,module,exports) {
 "use strict";
 
 var _haunted = require("haunted");
@@ -2814,9 +2781,9 @@ var _templateObject, _templateObject2;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-function ShoppingListItem() {
-  var ingredients = ["Vodka", "Raspberry Liqueur", "pineapple juice"];
-  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral([" <style>\n      .list {\n        border: none;\n        border-radius: 4px;\n        margin: 16px;\n        padding: 8px;\n        width: 220px;\n        height: 400px;\n        box-shadow: 2px 2px 16px -6px rgba(66, 68, 90, 1);\n        display: flex;\n        flex-direction: column;\n        justify-content: space-between;\n      }\n      .list-items {\n        display: flex;\n        flex-direction: column;\n      }\n      h4 {\n        margin: 12px 0;\n      }\n      button {\n        padding: 8px;\n        width: 120px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n    </style>\n    <div class=\"list\">\n      <div class=\"list-items\">\n        <h4>Shopping List</h4>\n        ", "\n      </div>\n      <button>Print</button>\n    </div>"])), ingredients === null || ingredients === void 0 ? void 0 : ingredients.map(function (ingredient) {
+function ShoppingListItem(_ref) {
+  var shoppingList = _ref.shoppingList;
+  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral([" <style>\n      .list {\n        border: none;\n        border-radius: 4px;\n        margin: 16px;\n        padding: 8px;\n        width: 220px;\n        height: 400px;\n        box-shadow: 2px 2px 16px -6px rgba(66, 68, 90, 1);\n        display: flex;\n        flex-direction: column;\n        justify-content: space-between;\n      }\n      .list-items {\n        display: flex;\n        flex-direction: column;\n      }\n      h4 {\n        margin: 12px 0;\n      }\n      button {\n        padding: 8px;\n        width: 120px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n    </style>\n    <div class=\"list\">\n      <div class=\"list-items\">\n        <h4>Shopping List</h4>\n        ", "\n      </div>\n      <button>Print</button>\n    </div>"])), shoppingList === null || shoppingList === void 0 ? void 0 : shoppingList.map(function (ingredient) {
     return (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["<span>", "</span>"])), ingredient);
   }));
 }
@@ -2843,6 +2810,14 @@ var _templateObject;
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -2866,9 +2841,13 @@ function App() {
       cocktails = _useState4[0],
       setCocktails = _useState4[1];
 
-  var searchForCocktails = function searchForCocktails(e) {
-    e.preventDefault(); // console.log("Searching...");
+  var _useState5 = (0, _core.useState)([]),
+      _useState6 = _slicedToArray(_useState5, 2),
+      shoppingList = _useState6[0],
+      setShoppingList = _useState6[1];
 
+  var searchForCocktails = function searchForCocktails(e) {
+    e.preventDefault();
     fetch("".concat(_environment.API_URL, "/search.php?s=").concat(query)).then(function (response) {
       return response.json();
     }).then(function (data) {
@@ -2880,9 +2859,21 @@ function App() {
     });
   };
 
-  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n      .search {\n        margin-bottom: 16px;\n        text-align: center;\n      }\n      input {\n        width: 60%;\n        height: 34px;\n        padding: 0px 16px;\n        border: 1px solid black;\n        border-radius: 4px;\n      }\n      button {\n        height: 36px;\n        padding: 0px 24px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n      .cocktail-list {\n        min-width: 438px;\n      }\n    </style>\n    <div>\n      <form class=\"search\" @submit=", ">\n        <input\n          type=\"text\"\n          placeholder=\"Cocktail Name...\"\n          @change=", "\n        />\n        <button type=\"submit\">Search</button>\n      </form>\n\n      <div style=\"display:flex;flex-direction:row\">\n        <cocktail-list\n          class=\"cocktail-list\"\n          .cocktails=", "\n        ></cocktail-list>\n        <shopping-list-item></shopping-list-item>\n      </div>\n    </div>\n  "])), searchForCocktails, function (e) {
+  var addToShoppingList = function addToShoppingList(e) {
+    var newItems = [];
+    e.forEach(function (item) {
+      if (!shoppingList.includes(item)) {
+        newItems.push(item);
+      }
+    });
+    setShoppingList([].concat(_toConsumableArray(shoppingList), newItems));
+  };
+
+  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n      .search {\n        margin-bottom: 16px;\n        text-align: center;\n      }\n      input {\n        width: 60%;\n        height: 34px;\n        padding: 0px 16px;\n        border: 1px solid black;\n        border-radius: 4px;\n      }\n      button {\n        height: 36px;\n        padding: 0px 24px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n      .cocktail-list {\n        min-width: 438px;\n      }\n    </style>\n    <div>\n      <form class=\"search\" @submit=", ">\n        <input\n          type=\"text\"\n          placeholder=\"Cocktail Name...\"\n          @change=", "\n        />\n        <button type=\"submit\">Search</button>\n      </form>\n\n      <div style=\"display:flex;flex-direction:row\">\n        <cocktail-list\n          class=\"cocktail-list\"\n          .cocktails=", "\n          @add-ingredients=", "\n        ></cocktail-list>\n        <shopping-list-item .shoppingList=", "></shopping-list-item>\n      </div>\n    </div>\n  "])), searchForCocktails, function (e) {
     return setQuery(e.target.value);
-  }, cocktails);
+  }, cocktails, function (event) {
+    return addToShoppingList(event.detail.cocktail);
+  }, shoppingList);
 }
 
 customElements.define("my-app", (0, _haunted.component)(App));
@@ -2914,7 +2905,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55732" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49901" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

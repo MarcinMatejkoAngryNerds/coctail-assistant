@@ -9,11 +9,10 @@ import "./src/components/shopping-list-item";
 function App() {
   const [query, setQuery] = useState();
   const [cocktails, setCocktails] = useState();
+  const [shoppingList, setShoppingList] = useState([]);
 
   const searchForCocktails = (e) => {
     e.preventDefault();
-
-    // console.log("Searching...");
 
     fetch(`${API_URL}/search.php?s=${query}`)
       .then((response) => response.json())
@@ -25,6 +24,16 @@ function App() {
         //   console.log("No results found.", data);
         // }
       });
+  };
+
+  const addToShoppingList = (e) => {
+    let newItems = [];
+    e.forEach((item) => {
+      if (!shoppingList.includes(item)) {
+        newItems.push(item);
+      }
+    });
+    setShoppingList([...shoppingList, ...newItems]);
   };
 
   return html`
@@ -69,8 +78,10 @@ function App() {
         <cocktail-list
           class="cocktail-list"
           .cocktails=${cocktails}
+          @add-ingredients=${(event) =>
+            addToShoppingList(event.detail.cocktail)}
         ></cocktail-list>
-        <shopping-list-item></shopping-list-item>
+        <shopping-list-item .shoppingList=${shoppingList}></shopping-list-item>
       </div>
     </div>
   `;
