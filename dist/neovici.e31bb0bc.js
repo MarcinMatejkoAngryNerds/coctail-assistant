@@ -2789,6 +2789,24 @@ function ShoppingListItem(_ref) {
 }
 
 customElements.define("shopping-list-item", (0, _haunted.component)(ShoppingListItem));
+},{"haunted":"node_modules/haunted/lib/haunted.js","lit-html":"node_modules/lit-html/lit-html.js"}],"src/components/toaster.js":[function(require,module,exports) {
+"use strict";
+
+var _haunted = require("haunted");
+
+var _litHtml = require("lit-html");
+
+var _templateObject, _templateObject2;
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+function Toaster(_ref) {
+  var toastMessage = _ref.toastMessage;
+  console.log("toastMessage", toastMessage);
+  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral([" ", ""])), toastMessage.length > 0 ? (0, _litHtml.html)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral([" <style>\n          .toaster {\n            border: none;\n            border-radius: 4px;\n            margin: 16px;\n            padding: 8px;\n            width: 220px;\n            height: 35px;\n            box-shadow: 2px 2px 16px -6px rgba(66, 68, 90, 1);\n          }\n        </style>\n        <div class=\"toaster\">\n          <span>", "</span>\n        </div>"])), toastMessage) : null);
+}
+
+customElements.define("app-toaster", (0, _haunted.component)(Toaster));
 },{"haunted":"node_modules/haunted/lib/haunted.js","lit-html":"node_modules/lit-html/lit-html.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -2805,6 +2823,8 @@ require("./src/components/cocktail-item");
 require("./src/components/cocktail-list");
 
 require("./src/components/shopping-list-item");
+
+require("./src/components/toaster");
 
 var _templateObject;
 
@@ -2846,16 +2866,24 @@ function App() {
       shoppingList = _useState6[0],
       setShoppingList = _useState6[1];
 
+  var _useState7 = (0, _core.useState)([]),
+      _useState8 = _slicedToArray(_useState7, 2),
+      toastMessage = _useState8[0],
+      setToastMessage = _useState8[1];
+
   var searchForCocktails = function searchForCocktails(e) {
     e.preventDefault();
+    setToastMessage("Searching...");
     fetch("".concat(_environment.API_URL, "/search.php?s=").concat(query)).then(function (response) {
       return response.json();
     }).then(function (data) {
-      setCocktails(data.drinks); // if (data.drinks) {
-      //   console.log("Here are the results.", data.drinks);
-      // } else {
-      //   console.log("No results found.", data);
-      // }
+      setCocktails(data.drinks);
+
+      if (data.drinks) {
+        setToastMessage("Here are the results.");
+      } else {
+        setToastMessage("No results found.");
+      }
     });
   };
 
@@ -2867,17 +2895,18 @@ function App() {
       }
     });
     setShoppingList([].concat(_toConsumableArray(shoppingList), newItems));
+    setToastMessage("Ingredients added to shopping list.");
   };
 
-  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n      .search {\n        margin-bottom: 16px;\n        text-align: center;\n      }\n      input {\n        width: 60%;\n        height: 34px;\n        padding: 0px 16px;\n        border: 1px solid black;\n        border-radius: 4px;\n      }\n      button {\n        height: 36px;\n        padding: 0px 24px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n      .cocktail-list {\n        min-width: 438px;\n      }\n    </style>\n    <div>\n      <form class=\"search\" @submit=", ">\n        <input\n          type=\"text\"\n          placeholder=\"Cocktail Name...\"\n          @change=", "\n        />\n        <button type=\"submit\">Search</button>\n      </form>\n\n      <div style=\"display:flex;flex-direction:row\">\n        <cocktail-list\n          class=\"cocktail-list\"\n          .cocktails=", "\n          @add-ingredients=", "\n        ></cocktail-list>\n        <shopping-list-item .shoppingList=", "></shopping-list-item>\n      </div>\n    </div>\n  "])), searchForCocktails, function (e) {
+  return (0, _litHtml.html)(_templateObject || (_templateObject = _taggedTemplateLiteral(["\n    <style>\n      .search {\n        margin-bottom: 16px;\n        text-align: center;\n      }\n      input {\n        width: 60%;\n        height: 34px;\n        padding: 0px 16px;\n        border: 1px solid black;\n        border-radius: 4px;\n      }\n      button {\n        height: 36px;\n        padding: 0px 24px;\n        border: none;\n        border-radius: 4px;\n        background-color: #d3d3d3;\n        cursor: pointer;\n      }\n      button:hover {\n        background-color: #c6c6c6;\n      }\n      .cocktail-list {\n        min-width: 438px;\n      }\n    </style>\n    <div>\n      <form class=\"search\" @submit=", ">\n        <input\n          type=\"text\"\n          placeholder=\"Cocktail Name...\"\n          @change=", "\n        />\n        <button type=\"submit\">Search</button>\n      </form>\n\n      <div style=\"display:flex;flex-direction:row\">\n        <cocktail-list\n          class=\"cocktail-list\"\n          .cocktails=", "\n          @add-ingredients=", "\n        ></cocktail-list>\n        <div>\n        <shopping-list-item .shoppingList=", "></shopping-list-item>\n        <app-toaster .toastMessage=", "></app-toaster>\n        </div\n        \n      </div>\n      \n    </div>\n  "])), searchForCocktails, function (e) {
     return setQuery(e.target.value);
   }, cocktails, function (event) {
     return addToShoppingList(event.detail.cocktail);
-  }, shoppingList);
+  }, shoppingList, toastMessage);
 }
 
 customElements.define("my-app", (0, _haunted.component)(App));
-},{"haunted":"node_modules/haunted/lib/haunted.js","lit-html":"node_modules/lit-html/lit-html.js","haunted/core":"node_modules/haunted/core.js","./environments/environment":"environments/environment.js","./src/components/cocktail-item":"src/components/cocktail-item.js","./src/components/cocktail-list":"src/components/cocktail-list.js","./src/components/shopping-list-item":"src/components/shopping-list-item.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"haunted":"node_modules/haunted/lib/haunted.js","lit-html":"node_modules/lit-html/lit-html.js","haunted/core":"node_modules/haunted/core.js","./environments/environment":"environments/environment.js","./src/components/cocktail-item":"src/components/cocktail-item.js","./src/components/cocktail-list":"src/components/cocktail-list.js","./src/components/shopping-list-item":"src/components/shopping-list-item.js","./src/components/toaster":"src/components/toaster.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

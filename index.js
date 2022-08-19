@@ -5,24 +5,28 @@ import { API_URL } from "./environments/environment";
 import "./src/components/cocktail-item";
 import "./src/components/cocktail-list";
 import "./src/components/shopping-list-item";
+import "./src/components/toaster";
 
 function App() {
   const [query, setQuery] = useState();
   const [cocktails, setCocktails] = useState();
   const [shoppingList, setShoppingList] = useState([]);
+  const [toastMessage, setToastMessage] = useState([]);
 
   const searchForCocktails = (e) => {
     e.preventDefault();
+
+    setToastMessage("Searching...");
 
     fetch(`${API_URL}/search.php?s=${query}`)
       .then((response) => response.json())
       .then((data) => {
         setCocktails(data.drinks);
-        // if (data.drinks) {
-        //   console.log("Here are the results.", data.drinks);
-        // } else {
-        //   console.log("No results found.", data);
-        // }
+        if (data.drinks) {
+          setToastMessage("Here are the results.");
+        } else {
+          setToastMessage("No results found.");
+        }
       });
   };
 
@@ -34,6 +38,7 @@ function App() {
       }
     });
     setShoppingList([...shoppingList, ...newItems]);
+    setToastMessage("Ingredients added to shopping list.");
   };
 
   return html`
@@ -81,8 +86,13 @@ function App() {
           @add-ingredients=${(event) =>
             addToShoppingList(event.detail.cocktail)}
         ></cocktail-list>
+        <div>
         <shopping-list-item .shoppingList=${shoppingList}></shopping-list-item>
+        <app-toaster .toastMessage=${toastMessage}></app-toaster>
+        </div
+        
       </div>
+      
     </div>
   `;
 }
